@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Storage</title>
+    <style>
+        body {
+            font-family: "Courier New", Courier, monospace;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            padding: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        button {
+            font-family: "Courier New", Courier, monospace;
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+        #savedEntries {
+            margin-top: 20px;
+        }
+        .entry {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Text Storage</h1>
+        
+        <div class="input-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" placeholder="Enter a title">
+        </div>
+
+        <div class="input-group">
+            <label for="input1">Input 1:</label>
+            <input type="text" id="input1" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="input2">Input 2:</label>
+            <input type="text" id="input2" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="input3">Input 3:</label>
+            <input type="text" id="input3" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="input4">Input 4:</label>
+            <input type="text" id="input4" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="input5">Input 5:</label>
+            <input type="text" id="input5" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="input6">Input 6:</label>
+            <input type="text" id="input6" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="input7">Input 7:</label>
+            <input type="text" id="input7" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="input8">Input 8:</label>
+            <input type="text" id="input8" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="input9">Input 9:</label>
+            <input type="text" id="input9" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="input10">Input 10:</label>
+            <input type="text" id="input10" placeholder="Enter text">
+        </div>
+
+        <div class="input-group">
+            <label for="content">Additional Notes:</label>
+            <textarea id="content" rows="4" placeholder="Enter any additional notes here"></textarea>
+        </div>
+
+        <button onclick="saveText()">Save</button>
+        <button onclick="clearStorage()">Clear</button>
+
+        <div id="savedEntries">
+            <h2>Saved Entries</h2>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            displaySavedEntries();
+        };
+
+        function saveText() {
+            const title = document.getElementById('title').value;
+            const inputs = Array.from({length: 10}, (_, i) => 
+                document.getElementById(`input${i+1}`).value
+            );
+            const content = document.getElementById('content').value;
+
+            if (!title) {
+                alert('Please fill in at least the title!');
+                return;
+            }
+
+            const entry = {
+                title: title,
+                inputs: inputs,
+                content: content,
+                date: new Date().toLocaleString()
+            };
+
+            let entries = JSON.parse(localStorage.getItem('entries') || '[]');
+            entries.push(entry);
+            localStorage.setItem('entries', JSON.stringify(entries));
+            
+            // Clear all inputs
+            document.getElementById('title').value = '';
+            inputs.forEach((_, i) => {
+                document.getElementById(`input${i+1}`).value = '';
+            });
+            document.getElementById('content').value = '';
+            
+            displaySavedEntries();
+        }
+
+        function displaySavedEntries() {
+            const entriesDiv = document.getElementById('savedEntries');
+            const entries = JSON.parse(localStorage.getItem('entries') || '[]');
+            
+            entriesDiv.innerHTML = '<h2>Saved Entries</h2>';
+            
+            entries.forEach((entry, index) => {
+                const entryElement = document.createElement('div');
+                entryElement.className = 'entry';
+                let inputsHtml = entry.inputs.map((input, i) => 
+                    input ? `<br>Input ${i+1}: ${input}` : ''
+                ).join('');
+                
+                entryElement.innerHTML = `
+                    <strong>${entry.title}</strong>
+                    ${inputsHtml}
+                    ${entry.content ? `<br>Additional Notes: ${entry.content}` : ''}
+                    <br><small>${entry.date}</small>
+                `;
+                entriesDiv.appendChild(entryElement);
+            });
+        }
+
+        function clearStorage() {
+            if (confirm('Are you sure you want to clear all entries?')) {
+                localStorage.clear();
+                displaySavedEntries();
+            }
+        }
+    </script>
+</body>
+</html>
