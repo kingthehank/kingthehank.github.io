@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The History of the Animal</title>
-    <!-- Adding Garamond (EB Garamond is the closest web-safe version) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/EB-Garamond/4.400/eb-garamond.css" rel="stylesheet">
-    <!-- Firebase SDK -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
     <style>
         body {
             font-family: 'EB Garamond', Garamond, serif;
@@ -39,64 +35,31 @@
         button:hover {
             background-color: #e0e0e0;
         }
-        #savedVersions {
-            margin-top: 30px;
-        }
-        .saved-version {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #000;
-        }
-        h1, h2, h3 {
+        h1 {
             font-family: 'EB Garamond', Garamond, serif;
             font-size: 24px;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             font-weight: normal;
         }
-        .version-title {
-            font-size: 20px;
-            margin-bottom: 15px;
-        }
-        .timestamp {
-            font-size: 14px;
-            color: #666;
-            margin-top: 15px;
-        }
-        .version-text {
-            text-align: justify;
+        .byline {
+            font-family: 'EB Garamond', Garamond, serif;
+            font-size: 16px;
+            margin-bottom: 30px;
+            font-weight: normal;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>The History of the Animal</h1>
+        <div class="byline">by Hannah Perrin King, as randomized by, in collaboration with, the user</div>
 
         <button onclick="generateNewVersion()">Generate New Version</button>
-        <button onclick="saveCurrentVersion()">Save This Version</button>
 
         <div id="randomText"></div>
-
-        <div id="savedVersions">
-            <h2>Saved Versions</h2>
-        </div>
     </div>
 
     <script>
-        // Firebase config remains the same
-        const firebaseConfig = {
-            apiKey: "AIzaSyC9TiBkxPaY5EdFEWvwqJ0hpt67vXKk5Ak",
-            authDomain: "los-sol.firebaseapp.com",
-            projectId: "los-sol",
-            storageBucket: "los-sol.firebasestorage.app",
-            messagingSenderId: "861713652607",
-            appId: "1:861713652607:web:c67af5d30b65ce1024584a",
-            measurementId: "G-HQC5QWGMHL"
-        };
-
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const versionsCollection = db.collection('animal-versions');
-
         const sentences = [
             "The Animal is long gone.",
             "The Animal is alive.",
@@ -119,8 +82,6 @@
             "We forgot the Animal."
         ];
 
-        let currentVersion = [];
-
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -130,71 +91,227 @@
         }
 
         function generateNewVersion() {
-            currentVersion = shuffleArray([...sentences]);
-            displayCurrentVersion();
+            const randomized = shuffleArray([...sentences]);
+            document.getElementById('randomText').textContent = randomized.join(' ');
         }
 
-        function displayCurrentVersion() {
-            const textDiv = document.getElementById('randomText');
-            textDiv.textContent = currentVersion.join(' '); // Changed to space instead of newline
-        }
-
-        async function saveCurrentVersion() {
-            if (currentVersion.length === 0) {
-                alert('Please generate a version first');
-                return;
-            }
-
-            try {
-                await versionsCollection.add({
-                    title: "The History of the Animal",
-                    text: currentVersion,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                loadSavedVersions();
-            } catch (error) {
-                console.error("Error saving version:", error);
-                alert('Error saving version. Please try again.');
-            }
-        }
-
-        async function loadSavedVersions() {
-            try {
-                const snapshot = await versionsCollection
-                    .orderBy('timestamp', 'desc')
-                    .get();
-
-                const versionsDiv = document.getElementById('savedVersions');
-                versionsDiv.innerHTML = '<h2>Saved Versions</h2>';
-
-                snapshot.forEach(doc => {
-                    const version = doc.data();
-                    const versionElement = document.createElement('div');
-                    versionElement.className = 'saved-version';
-                    versionElement.innerHTML = `
-                        <div class="version-title">${version.title}</div>
-                        <div class="version-text">${version.text.join(' ')}</div>
-                        <div class="timestamp">Saved: ${version.timestamp ?
-                            version.timestamp.toDate().toLocaleString() :
-                            'Just now'}</div>
-                    `;
-                    versionsDiv.appendChild(versionElement);
-                });
-            } catch (error) {
-                console.error("Error loading versions:", error);
-            }
-        }
-
-        // Initial load
+        // Generate initial version when page loads
         generateNewVersion();
-        loadSavedVersions();
-
-        // Real-time updates
-        versionsCollection.orderBy('timestamp', 'desc')
-            .onSnapshot((snapshot) => {
-                loadSavedVersions();
-            });
     </script>
 </body>
 </html>
+
+
+
+
+Sent from my iPhone
+
+> On Feb 3, 2025, at 6:22 PM, Hannah Perrin King <hannahpking@gmail.com> wrote:
+>
+> ﻿html
+> <a href="animal.html">The History of the Animal</a>
+>
+> Sent from my iPhone
+>
+>> On Feb 3, 2025, at 6:19 PM, Hannah Perrin King <hannahpking@gmail.com> wrote:
+>>
+>> ﻿<!DOCTYPE html>
+>> <html lang="en">
+>> <head>
+>>   <meta charset="UTF-8">
+>>   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+>>   <title>The History of the Animal</title>
+>>   <!-- Adding Garamond (EB Garamond is the closest web-safe version) -->
+>>   <link href="https://cdnjs.cloudflare.com/ajax/libs/EB-Garamond/4.400/eb-garamond.css" rel="stylesheet">
+>>   <!-- Firebase SDK -->
+>>   <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+>>   <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-firestore-compat.min.js"></script>
+>>   <style>
+>>       body {
+>>           font-family: 'EB Garamond', Garamond, serif;
+>>           max-width: 800px;
+>>           margin: 0 auto;
+>>           padding: 20px;
+>>           background-color: #fff;
+>>           font-size: 18px;
+>>           line-height: 1.6;
+>>       }
+>>       .container {
+>>           padding: 20px;
+>>       }
+>>       #randomText {
+>>           margin: 30px 0;
+>>           text-align: justify;
+>>       }
+>>       button {
+>>           font-family: 'EB Garamond', Garamond, serif;
+>>           padding: 10px 20px;
+>>           margin-right: 10px;
+>>           margin-bottom: 20px;
+>>           background-color: #f0f0f0;
+>>           border: 1px solid #000;
+>>           cursor: pointer;
+>>           font-size: 16px;
+>>       }
+>>       button:hover {
+>>           background-color: #e0e0e0;
+>>       }
+>>       #savedVersions {
+>>           margin-top: 30px;
+>>       }
+>>       .saved-version {
+>>           margin: 20px 0;
+>>           padding: 15px;
+>>           border: 1px solid #000;
+>>       }
+>>       h1, h2, h3 {
+>>           font-family: 'EB Garamond', Garamond, serif;
+>>           font-size: 24px;
+>>           margin-bottom: 30px;
+>>           font-weight: normal;
+>>       }
+>>       .version-title {
+>>           font-size: 20px;
+>>           margin-bottom: 15px;
+>>       }
+>>       .timestamp {
+>>           font-size: 14px;
+>>           color: #666;
+>>           margin-top: 15px;
+>>       }
+>>       .version-text {
+>>           text-align: justify;
+>>       }
+>>   </style>
+>> </head>
+>> <body>
+>>   <div class="container">
+>>       <h1>The History of the Animal</h1>
+>>
+>>       <button onclick="generateNewVersion()">Generate New Version</button>
+>>       <button onclick="saveCurrentVersion()">Save This Version</button>
+>>
+>>       <div id="randomText"></div>
+>>
+>>       <div id="savedVersions">
+>>           <h2>Saved Versions</h2>
+>>       </div>
+>>   </div>
+>>
+>>   <script>
+>>       // Firebase config remains the same
+>>       const firebaseConfig = {
+>>           apiKey: "AIzaSyC9TiBkxPaY5EdFEWvwqJ0hpt67vXKk5Ak",
+>>           authDomain: "los-sol.firebaseapp.com",
+>>           projectId: "los-sol",
+>>           storageBucket: "los-sol.firebasestorage.app",
+>>           messagingSenderId: "861713652607",
+>>           appId: "1:861713652607:web:c67af5d30b65ce1024584a",
+>>           measurementId: "G-HQC5QWGMHL"
+>>       };
+>>
+>>       firebase.initializeApp(firebaseConfig);
+>>       const db = firebase.firestore();
+>>       const versionsCollection = db.collection('animal-versions');
+>>
+>>       const sentences = [
+>>           "The Animal is long gone.",
+>>           "The Animal is alive.",
+>>           "We liked the Animal too much.",
+>>           "We didn't like the Animal enough.",
+>>           "We liked the Animal's skin, and the meat inside, its protruding teeth.",
+>>           "We never liked the Animal so much as when the Animal was gone.",
+>>           "The Animal is extinct.",
+>>           "We killed the Animal.",
+>>           "We raised the Animal.",
+>>           "We slaughtered the Animal.",
+>>           "We petted the Animal.",
+>>           "We made up songs about the Animal.",
+>>           "We mourned the idea of the Animal.",
+>>           "The Animal slept on a bed of hay.",
+>>           "The Animal slept.",
+>>           "The Animal slept under the stars.",
+>>           "The Animal slept in our beds.",
+>>           "We remembered the Animal.",
+>>           "We forgot the Animal."
+>>       ];
+>>
+>>       let currentVersion = [];
+>>
+>>       function shuffleArray(array) {
+>>           for (let i = array.length - 1; i > 0; i--) {
+>>               const j = Math.floor(Math.random() * (i + 1));
+>>               [array[i], array[j]] = [array[j], array[i]];
+>>           }
+>>           return array;
+>>       }
+>>
+>>       function generateNewVersion() {
+>>           currentVersion = shuffleArray([...sentences]);
+>>           displayCurrentVersion();
+>>       }
+>>
+>>       function displayCurrentVersion() {
+>>           const textDiv = document.getElementById('randomText');
+>>           textDiv.textContent = currentVersion.join(' '); // Changed to space instead of newline
+>>       }
+>>
+>>       async function saveCurrentVersion() {
+>>           if (currentVersion.length === 0) {
+>>               alert('Please generate a version first');
+>>               return;
+>>           }
+>>
+>>           try {
+>>               await versionsCollection.add({
+>>                   title: "The History of the Animal",
+>>                   text: currentVersion,
+>>                   timestamp: firebase.firestore.FieldValue.serverTimestamp()
+>>               });
+>>
+>>               loadSavedVersions();
+>>           } catch (error) {
+>>               console.error("Error saving version:", error);
+>>               alert('Error saving version. Please try again.');
+>>           }
+>>       }
+>>
+>>       async function loadSavedVersions() {
+>>           try {
+>>               const snapshot = await versionsCollection
+>>                   .orderBy('timestamp', 'desc')
+>>                   .get();
+>>
+>>               const versionsDiv = document.getElementById('savedVersions');
+>>               versionsDiv.innerHTML = '<h2>Saved Versions</h2>';
+>>
+>>               snapshot.forEach(doc => {
+>>                   const version = doc.data();
+>>                   const versionElement = document.createElement('div');
+>>                   versionElement.className = 'saved-version';
+>>                   versionElement.innerHTML = `
+>>                       <div class="version-title">${version.title}</div>
+>>                       <div class="version-text">${version.text.join(' ')}</div>
+>>                       <div class="timestamp">Saved: ${version.timestamp ?
+>>                           version.timestamp.toDate().toLocaleString() :
+>>                           'Just now'}</div>
+>>                   `;
+>>                   versionsDiv.appendChild(versionElement);
+>>               });
+>>           } catch (error) {
+>>               console.error("Error loading versions:", error);
+>>           }
+>>       }
+>>
+>>       // Initial load
+>>       generateNewVersion();
+>>       loadSavedVersions();
+>>
+>>       // Real-time updates
+>>       versionsCollection.orderBy('timestamp', 'desc')
+>>           .onSnapshot((snapshot) => {
+>>               loadSavedVersions();
+>>           });
+>>   </script>
+>> </body>
+>> </html>
