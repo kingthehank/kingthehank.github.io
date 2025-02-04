@@ -62,7 +62,7 @@
         <h1>The History of the Animal</h1>
         <div class="byline">by Hannah Perrin King in collaboration with, as randomized by, the user</div>
 
-        <button onclick="generateNewVersion()">Generate New Poem</button>
+        <button onclick="generateNewPoem()">Generate New Poem</button>
         
         <div id="randomText"></div>
 
@@ -102,7 +102,7 @@
             return array;
         }
 
-        function generateNewVersion() {
+        function generateNewPoem() {
             const randomized = shuffleArray([...sentences]);
             document.getElementById('randomText').textContent = randomized.join(' ');
         }
