@@ -62,7 +62,7 @@
         <h1>Polar, After "The Bear and the Moon" by Joanne Ryder</h1>
         <div class="byline">by Hannah Perrin King in collaboration with, as randomized by, the user</div>
 
-        <button id="poemButton">Generate New Poem</button>
+        <button onclick="generateNewPoem()">Generate New Poem</button>
         
         <div id="randomText"></div>
 
@@ -123,13 +123,6 @@
             const randomized = shuffleArray([...sentences]);
             document.getElementById('randomText').textContent = randomized.join(' ');
         }
-
-        // Add event listener to button
-        document.getElementById('poemButton').addEventListener('click', generateNewPoem);
-    </script>
-</body>
-</html>
-        debug("Event listener attached to button");
     </script>
 </body>
 </html>
