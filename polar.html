@@ -65,7 +65,6 @@
         <button id="poemButton">Generate New Poem</button>
         
         <div id="randomText"></div>
-        <div id="debug" style="color: #999; font-size: 14px; margin-top: 10px;"></div>
 
         <div class="copyright">
             © 2024 Hannah Perrin King. All rights reserved.
@@ -73,20 +72,6 @@
     </div>
 
     <script>
-        // Debug function
-        function debug(message) {
-            document.getElementById('debug').textContent += message + "\n";
-            console.log(message);
-        }
-
-        // Try to detect JS errors
-        window.onerror = function(message, source, lineno, colno, error) {
-            debug("Error: " + message + " at line " + lineno);
-            return false;
-        };
-
-        debug("Script loaded");
-
         const sentences = [
             "The sea was limitless.",
             "The moon was limited.",
@@ -126,33 +111,24 @@
             "The people left."
         ];
 
-        debug("Sentences array loaded with " + sentences.length + " items");
-
         function shuffleArray(array) {
-            debug("Shuffling array...");
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
-            debug("Array shuffled");
             return array;
         }
 
         function generateNewPoem() {
-            debug("generateNewPoem function called");
             const randomized = shuffleArray([...sentences]);
-            debug("Array randomized, joining...");
-            const poemText = randomized.join(' ');
-            document.getElementById('randomText').textContent = poemText;
-            debug("Poem generated and displayed with " + randomized.length + " sentences");
+            document.getElementById('randomText').textContent = randomized.join(' ');
         }
 
-        // Add event listener instead of inline onclick
-        document.getElementById('poemButton').addEventListener('click', function() {
-            debug("Button clicked");
-            generateNewPoem();
-        });
-
+        // Add event listener to button
+        document.getElementById('poemButton').addEventListener('click', generateNewPoem);
+    </script>
+</body>
+</html>
         debug("Event listener attached to button");
     </script>
 </body>
