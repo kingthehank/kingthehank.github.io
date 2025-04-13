@@ -62,9 +62,10 @@
         <h1>Polar, After "The Bear and the Moon" by Joanne Ryder</h1>
         <div class="byline">by Hannah Perrin King in collaboration with, as randomized by, the user</div>
 
-        <button onclick="generateNewPoem()">Generate New Poem</button>
+        <button id="poemButton">Generate New Poem</button>
         
         <div id="randomText"></div>
+        <div id="debug" style="color: #999; font-size: 14px; margin-top: 10px;"></div>
 
         <div class="copyright">
             © 2024 Hannah Perrin King. All rights reserved.
@@ -72,6 +73,20 @@
     </div>
 
     <script>
+        // Debug function
+        function debug(message) {
+            document.getElementById('debug').textContent += message + "\n";
+            console.log(message);
+        }
+
+        // Try to detect JS errors
+        window.onerror = function(message, source, lineno, colno, error) {
+            debug("Error: " + message + " at line " + lineno);
+            return false;
+        };
+
+        debug("Script loaded");
+
         const sentences = [
             "The sea was limitless.",
             "The moon was limited.",
@@ -95,7 +110,7 @@
             "Her paws were so big, and not big enough.",
             "Her paws were big, like paddles, parting the sea.", 
             "The sea, it swallowed her whole.", 
-            "The moon’s expression did not change.", 
+            "The moon's expression did not change.", 
             "A photographer arrived on the continent.",
             "People took pictures.",
             "It was written about.",
@@ -105,25 +120,40 @@
             "The moon was a restless search light.", 
             "Her big, wet paws searched for land.",
             "She was the color of a milk carton.",
-            "Her kids weren’t on a milk cartoon.",
+            "Her kids weren't on a milk cartoon.",
             "The milk carton floated by, a waxy, little, immutable iceberg.",
             "The people gathered.",
             "The people left."
         ];
 
+        debug("Sentences array loaded with " + sentences.length + " items");
+
         function shuffleArray(array) {
+            debug("Shuffling array...");
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
+            debug("Array shuffled");
             return array;
         }
 
         function generateNewPoem() {
+            debug("generateNewPoem function called");
             const randomized = shuffleArray([...sentences]);
-            document.getElementById('randomText').textContent = randomized.join(' ');
+            debug("Array randomized, joining...");
+            const poemText = randomized.join(' ');
+            document.getElementById('randomText').textContent = poemText;
+            debug("Poem generated and displayed with " + randomized.length + " sentences");
         }
 
+        // Add event listener instead of inline onclick
+        document.getElementById('poemButton').addEventListener('click', function() {
+            debug("Button clicked");
+            generateNewPoem();
+        });
+
+        debug("Event listener attached to button");
     </script>
 </body>
 </html>
